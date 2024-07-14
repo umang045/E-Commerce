@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import BreadCrumb from "./BreadCrumb";
 import Meta from "../Components/Meta";
 import { Link, useNavigate } from "react-router-dom";
@@ -25,7 +25,7 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const authState = useSelector((state) => state?.auth);
-  console.log(authState);
+  // console.log(authState);
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -34,16 +34,29 @@ function Login() {
     validationSchema: loginSchema,
     onSubmit: (values) => {
       dispatch(loginUser(values));
-      if (authState?.user?.updateUser) {
-        toast.success("Login successfully!!");
-        dispatch(getAllBlogs());
-        dispatch(getCart());
-        navigate("/");
-      } else {
-        toast.error(authState?.user?.message);
-      }
+      setTimeout(() => {
+        let msg = localStorage.getItem('token')
+        console.log(msg)
+        if (msg == "Invalid Inputs!!") {
+          console.log('hello')
+          toast.error(msg);
+        } else {
+          toast.success("Login successfully!!");
+          navigate("/");
+          dispatch(getAllBlogs());
+          dispatch(getCart());
+        }
+      }, 500);
     },
   });
+
+  // useEffect(()=>{
+  //
+  //   else if(authState?.user?.message != "Invalid Inputs!!"){
+  //
+  // },[dispatch])
+
+  console.log();
 
   return (
     <>

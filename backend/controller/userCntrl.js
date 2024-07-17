@@ -142,6 +142,7 @@ const logout = asyncHandler(async (req, res, next) => {
   if (!findUser) {
     throw new Error("User not found with this Token");
   } else {
+    
     res.clearCookie("refreshToken", {
       httpOnly: true,
       secure: true,
@@ -270,17 +271,15 @@ const updateProductQuantityFromCart = asyncHandler(async (req, res, next) => {
   // const {  } = req.user;
   const { id, cartItemId, newQuantity } = req.params;
 
-
   const queryObj = req.originalUrl;
   const demo = queryObj.split("/");
   const newQuantity1 = parseInt(demo[demo.length - 1]);
-
 
   try {
     const updatedCartItem = await Cart.findOneAndUpdate(
       { userId: id, _id: cartItemId },
       { $set: { quantity: newQuantity1 } },
-      { new: true } 
+      { new: true }
     );
 
     res.json(updatedCartItem);

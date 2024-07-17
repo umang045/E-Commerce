@@ -283,17 +283,14 @@ export const userSlice = createSlice({
         state.isSuccess = true;
         state.isError = false;
         state.updateProductfromCart = action.payload;
-        toast.success("Product Updated  Sucessfully");
-        state.message = "success";
+       
       })
       .addCase(updateProductfromCart.rejected, (state, action) => {
         state.isLoading = false;
         state.isError = action.error;
         state.isSuccess = true;
         state.user = null;
-        if (state.isError === true) {
-          toast.error("Something wrong");
-        }
+      
       })
       .addCase(getUserOrders.pending, (state) => {
         state.isLoading = true;

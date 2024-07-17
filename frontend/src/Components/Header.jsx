@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import { getAProduct } from "../Features/product/productSlice";
+import { toast, ToastContainer } from "react-toastify";
 
 function Header() {
   const dispatch = useDispatch();
@@ -41,6 +42,7 @@ function Header() {
 
   return (
     <>
+      
       <header className="header-top-strip py-3 px-4">
         <div className="container-xxl">
           <div className="row">
@@ -91,8 +93,7 @@ function Header() {
             </div>
             <div className="col-5 mb-0 d-flex justify-content-around gap-30">
               <div className="header-upper-links d-flex align-items-center justify-content-around gap-30 mb-0 ">
-                
-                  {/* <Link
+                {/* <Link
                     to="/compare-product"
                     className="d-flex align-items-center gap-10 text-white pl-3"
                   >
@@ -102,7 +103,7 @@ function Header() {
                       Products
                     </p>
                   </Link> */}
-                
+
                 <div className="me-2">
                   <Link
                     to="/wishlist"
@@ -115,25 +116,7 @@ function Header() {
                     </p>
                   </Link>
                 </div>
-                <div className="me-2">
-                  <Link
-                    to={authState.user === null ? "/login" : "/my-profile"}
-                    className="d-flex align-items-center gap-10 text-white"
-                  >
-                    <img src="images/user.svg" alt="User"></img>
-                    {authState.user === null ? (
-                      <p className="mb-0">
-                        login
-                        <br />
-                        My Account
-                      </p>
-                    ) : (
-                      <p className="mb-0">
-                        Welcome {authState?.user?.updateUser?.firstname}
-                      </p>
-                    )}
-                  </Link>
-                </div>
+
                 <div className="me-2">
                   <Link
                     to="/cart"
@@ -148,7 +131,40 @@ function Header() {
                     </div>
                   </Link>
                 </div>
-                <div></div>
+                <div className="me-2">
+                  <Link
+                    to={authState.user === null ? "/login" : "/my-profile"}
+                    className="d-flex align-items-center gap-10 text-white"
+                  >
+                    <img src="images/user.svg" alt="User"></img>
+                    {authState.user === null ? (
+                      <p className="mb-0">login</p>
+                    ) : (
+                      <p className="mb-0">
+                        Welcome {authState?.user?.updateUser?.firstname}
+                      </p>
+                    )}
+                  </Link>
+                </div>
+                <div>
+                  <button
+                    className="button"
+                    style={{
+                      backgroundColor: "#febd69",
+                      fontSize: "15px",
+                      color: "black",
+                    }}
+                    type="button"
+                    onClick={() => {
+                      localStorage.clear();
+                      setTimeout(() => {
+                        window.location.reload();
+                      }, 500);
+                    }}
+                  >
+                    logout
+                  </button>
+                </div>
               </div>
             </div>
           </div>

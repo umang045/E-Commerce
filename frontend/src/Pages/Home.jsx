@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAllBlogs } from "../Features/blogs/blogSlice";
 import { getAllProducts } from "../Features/product/productSlice";
 import { useTimer } from "react-timer-hook";
+import { ToastContainer } from "react-toastify";
 
 function Home() {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ function Home() {
 
   return (
     <>
+     <ToastContainer />
       <Container class1="home-wrapper-1 py-4">
         <div className="row">
           <div className="col-6">

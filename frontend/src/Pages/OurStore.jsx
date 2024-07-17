@@ -7,6 +7,7 @@ import Color from "../Components/Color";
 import Container from "../Components/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllProducts } from "../Features/product/productSlice";
+import { ToastContainer } from "react-toastify";
 
 function OurStore() {
   const [grid, setGrid] = useState(4);
@@ -57,6 +58,7 @@ function OurStore() {
       <Meta title="Our Store" />
       <BreadCrumb title="Our store" />
 
+      <ToastContainer />
       <Container class1="sotre-wrapper home-wrapper-2 py-5">
         <div className="row">
           <div className="col-3">

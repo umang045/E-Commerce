@@ -26,7 +26,8 @@ function Home() {
 
   return (
     <>
-     <ToastContainer />
+      <ToastContainer />
+
       <Container class1="home-wrapper-1 py-4">
         <div className="row">
           <div className="col-6">
@@ -168,36 +169,6 @@ function Home() {
           </div>
         </div>{" "}
       </Container>
-
-      {/* <Container class1="feature-wrapper py-5 home-wrapper-2">
-        {" "}
-        <div className="row">
-          <div className="col-12">
-            <h3 className="section-heading">Featured Collection</h3>
-          </div>
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-        </div>
-      </Container> */}
-
-      {/* 
-      <Container class1="featured-wrapper py-5 home-wrapper-2">
-        <div className="row">
-          <div className="col-3">
-            <div className="famous-card position-relative ">
-              <img src="images/watch.jpg" alt="watch"></img>
-
-              <div className="famous-content position-absolute">
-                <h5>Big Screen</h5>
-                <h6>Smart Watch Series</h6>
-              
-              </div>
-            </div>
-          </div>
-        </div>
-      </Container> */}
 
       {/* special Products */}
       <Container class1="special-warpper py-5 home-wrapper-2">

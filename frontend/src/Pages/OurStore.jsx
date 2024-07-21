@@ -27,7 +27,6 @@ function OurStore() {
   console.log(sort);
 
   const productState = useSelector((state) => state?.product?.product);
-  console.log(productState);
 
   useEffect(() => {
     let newBrands = [];
@@ -46,19 +45,21 @@ function OurStore() {
 
   useEffect(() => {
     getProducts();
-  }, [sort,tag,brand,category,minPrice,maxPrice]);
+  }, [sort, tag, brand, category, minPrice, maxPrice]);
 
   const getProducts = () => {
-    dispatch(getAllProducts({sort,tag,brand,category,minPrice,maxPrice}));
+    dispatch(
+      getAllProducts({ sort, tag, brand, category, minPrice, maxPrice })
+    );
   };
 
   // alert(grid);
   return (
     <>
+      <ToastContainer />
       <Meta title="Our Store" />
       <BreadCrumb title="Our store" />
 
-      <ToastContainer />
       <Container class1="sotre-wrapper home-wrapper-2 py-5">
         <div className="row">
           <div className="col-3">
@@ -268,7 +269,9 @@ function OurStore() {
                     className="form-control form-select"
                     onChange={(e) => setSort(e.target.value)}
                   >
-                    <option selected value="title">Alphabetically , A-Z</option>
+                    <option selected value="title">
+                      Alphabetically , A-Z
+                    </option>
                     <option value="-title">Alphabetically , Z-A</option>
                     <option value="price">Price, high-low</option>
                     <option value="-price">Price, low-high</option>

@@ -12,6 +12,7 @@ import { getAllBlogs } from "../Features/blogs/blogSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+//validation schema
 let loginSchema = yup.object({
   email: yup
     .string()
@@ -35,10 +36,9 @@ function Login() {
     onSubmit: (values) => {
       dispatch(loginUser(values));
       setTimeout(() => {
-        let msg = localStorage.getItem('token')
-        console.log(msg)
+        let msg = localStorage.getItem("token");
+
         if (msg == "Invalid Inputs!!") {
-          console.log('hello')
           toast.error(msg);
         } else {
           toast.success("Login successfully!!");
@@ -50,17 +50,9 @@ function Login() {
     },
   });
 
-  // useEffect(()=>{
-  //
-  //   else if(authState?.user?.message != "Invalid Inputs!!"){
-  //
-  // },[dispatch])
-
-  console.log();
-
   return (
     <>
-     <ToastContainer />
+      <ToastContainer />
       <Meta title={"Login"} />
       <BreadCrumb title="Login" />
 

@@ -20,7 +20,10 @@ const uploadRouter = require("./routes/uploadRoute");
 const colorRouter = require("./routes/colorRoute");
 const enqRouter = require("./routes/enqRoute");
 
-app.use(cors());
+const corsOptions = {
+  credentials: true,
+};
+app.use(cors(corsOptions));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());

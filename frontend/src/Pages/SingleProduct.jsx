@@ -29,7 +29,11 @@ function SingleProduct() {
   const getProdId = location.pathname.split("/")[2];
 
   const addRattingToProducts = () => {
-    if (star === null) {
+    if (!localStorage.getItem("token")) {
+      alert("you need to login first");
+      navigate("/login");
+      return;
+    } else if (star === null) {
       toast.error("Please Add Start For Ratting!");
       return false;
     }
@@ -60,8 +64,6 @@ function SingleProduct() {
   const getCartState = useSelector((state) => state?.auth?.getCart);
   const url = getAProductState?.images[0].url;
 
-  // console.log(getCartState.length);
-
   useEffect(() => {
     for (let index = 0; index < getCartState?.length; index++) {
       if (getProdId === getCartState[index]?.pid?._id) {
@@ -71,12 +73,15 @@ function SingleProduct() {
   }, []);
 
   const uploadCart = () => {
+    if (!localStorage.getItem("token")) {
+      alert("you need to login first");
+      navigate("/login");
+      return;
+    }
     if (color === null) {
       toast.error("Please Select One Color");
       return false;
     } else {
-      // const a = {prouctId : getAProductState?._id,quantity,color,price:getAProductState?.price}
-      // console.log(a);
       dispatch(
         addToCart({
           pid: getAProductState?._id,
@@ -192,6 +197,7 @@ function SingleProduct() {
                           type="number"
                           name=""
                           id=""
+                          defaultValue={1}
                           min={1}
                           max={10}
                           style={{ width: "70px" }}

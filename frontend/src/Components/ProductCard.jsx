@@ -1,6 +1,6 @@
-import React from "react";
+import React, { useEffect } from "react";
 import ReactStars from "react-rating-stars-component";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 import wish from "../images/wish.svg";
 import watch from "../images/watch.jpg";
@@ -9,14 +9,21 @@ import view from "../images/view.svg";
 import cart from "../images/add-cart.svg";
 import { useDispatch, useSelector } from "react-redux";
 import { addToWishlist } from "../Features/user/userSlice";
+import { toast } from "react-toastify";
 
 function ProductCard(props) {
   const grid = props;
   const data = grid.data;
   let location = useLocation();
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const addprodToWishlist = (id) => {
+    if (!localStorage.getItem("token")) {
+      toast.error("You Need To Login First");
+      navigate("/login");
+      return;
+    }
     dispatch(addToWishlist(id));
   };
 
@@ -45,21 +52,20 @@ function ProductCard(props) {
                   className="border bg-transparent"
                   onClick={(e) => {
                     addprodToWishlist(item._id);
-                    // console.log("helo")
                   }}
                 >
                   <img src={wish} alt="wishlist"></img>
                 </button>
               </div>
               {/* <div className="product-image"> */}
-              <Link to={'/product/'+item?._id}>
-                <img 
+              <Link to={"/product/" + item?._id}>
+                <img
                   src={item.images[0].url}
                   alt="product"
                   className="img-fluid"
                 ></img>
               </Link>
-             
+
               <div className="product-details d-flex flex-column align-items-center jusify-content-center">
                 <h6 className="brand">{item?.brand}</h6>
                 <h5 className="product-title">{item?.title}</h5>

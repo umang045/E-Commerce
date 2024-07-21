@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import BreadCrumb from "./BreadCrumb";
 import Meta from "../Components/Meta";
 import { FaHome } from "react-icons/fa";
@@ -12,6 +12,7 @@ import { useDispatch } from "react-redux";
 import { createEnq } from "../Features/contact/contactSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 let loginSchema = yup.object({
   name: yup.string().required("name is Required!!"),
@@ -26,6 +27,15 @@ let loginSchema = yup.object({
 
 function Contact() {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  useEffect(()=>{
+    if (!localStorage.getItem("token")) {
+      alert("you need to login first");
+      navigate("/login");
+      return;
+    }
+  },[dispatch])
 
   const formik = useFormik({
     initialValues: {
@@ -36,7 +46,6 @@ function Contact() {
     },
     validationSchema: loginSchema,
     onSubmit: (values) => {
-      console.log(values);
       dispatch(
         createEnq({
           name: values.name,

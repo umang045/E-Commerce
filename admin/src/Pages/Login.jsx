@@ -27,7 +27,6 @@ function Login() {
     validationSchema: schema,
     onSubmit: (values) => {
       dispatch(login(values));
-      alert(JSON.stringify(values, null, 2));
     },
   });
 
@@ -36,16 +35,8 @@ function Login() {
   const { user, isError, isSuccess, isLoading, message } = authState.auth;
 
   useEffect(() => {
-    if (isSuccess) {
-      navigate("admin");
-    } else {
-      navigate("");
-    }
-  }, [user, isError, isSuccess, isLoading]);
-
-  useEffect(() => {
     // console.log(user.updateUser.refreshToken);
-    if (!user == null || isSuccess) {
+    if (user != null || isSuccess) {
       navigate("admin");
     } else {
       navigate("");

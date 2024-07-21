@@ -3,15 +3,23 @@ import BreadCrumb from "./BreadCrumb";
 import Container from "../Components/Container";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserOrders } from "../Features/user/userSlice";
+import { useNavigate } from "react-router-dom";
 
 function Order() {
-  useEffect(() => {
-    dispatch(getUserOrders());
-  }, []);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!localStorage.getItem("token")) {
+      navigate("/login");
+    } else {
+      dispatch(getUserOrders());
+    }
+  }, [dispatch, navigate]);
+
+
   const getUserOrderState = useSelector((state) => state?.auth?.getUserOrders);
-  //   console.log(getUserOrderState);
+
 
   return (
     <>
@@ -41,7 +49,7 @@ function Order() {
                   <div
                     className="row mb-3 rounded rounded-4 fw-bold border border-1"
                     key={index}
-                    style={{ backgroundColor: "#febd69", }}
+                    style={{ backgroundColor: "#febd69" }}
                   >
                     <div className="col-3 fs-5">
                       <p>{item?._id}</p>

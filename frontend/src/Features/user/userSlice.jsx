@@ -224,9 +224,6 @@ export const userSlice = createSlice({
         state.isSuccess = true;
         state.isError = false;
         state.getCart = action.payload;
-        // console.log(action.payload.updateUser.refreshToken);
-        // localStorage.setItem("token", action.payload.updateUser.refreshToken);
-        // toast.success("Add To Wishlist Sucessfully");
         state.message = "success";
       })
       .addCase(getCart.rejected, (state, action) => {

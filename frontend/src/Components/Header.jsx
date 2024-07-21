@@ -18,13 +18,10 @@ function Header() {
   const [productOpt, setProductOpt] = useState([]);
   const navigate = useNavigate();
 
-  // console.log(productState);
-
   useEffect(() => {
     let sum = 0;
     for (let index = 0; index < cartState?.length; index++) {
       sum += Number(cartState[index]?.quantity) * cartState[index]?.price;
-      // console.log(sum);
       setCartsum(sum);
     }
   }, [cartState]);
@@ -38,11 +35,8 @@ function Header() {
     setProductOpt(data);
   }, []);
 
-  // console.log(productOpt);
-
   return (
     <>
-      
       <header className="header-top-strip py-3 px-4">
         <div className="container-xxl">
           <div className="row">
@@ -137,33 +131,39 @@ function Header() {
                     className="d-flex align-items-center gap-10 text-white"
                   >
                     <img src="images/user.svg" alt="User"></img>
-                    {authState.user === null ? (
-                      <p className="mb-0">login</p>
-                    ) : (
+                    {localStorage.getItem("token") &&
+                    localStorage.getItem("token") != "Invalid Inputs!!" ? (
                       <p className="mb-0">
                         Welcome {authState?.user?.updateUser?.firstname}
                       </p>
+                    ) : (
+                      <p className="mb-0">login</p>
                     )}
                   </Link>
                 </div>
                 <div>
-                  <button
-                    className="button"
-                    style={{
-                      backgroundColor: "#febd69",
-                      fontSize: "15px",
-                      color: "black",
-                    }}
-                    type="button"
-                    onClick={() => {
-                      localStorage.clear();
-                      setTimeout(() => {
-                        window.location.reload();
-                      }, 500);
-                    }}
-                  >
-                    logout
-                  </button>
+                  { localStorage.getItem("token") &&
+                    localStorage.getItem("token") != "Invalid Inputs!!"  ? (
+                    <button
+                      className="button"
+                      style={{
+                        backgroundColor: "#febd69",
+                        fontSize: "15px",
+                        color: "black",
+                      }}
+                      type="button"
+                      onClick={() => {
+                        localStorage.clear();
+                        setTimeout(() => {
+                          window.location.reload();
+                        }, 500);
+                      }}
+                    >
+                      logout
+                    </button>
+                  ) : (
+                    <></>
+                  )}
                 </div>
               </div>
             </div>

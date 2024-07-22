@@ -8,8 +8,6 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 
 import { Select } from "antd";
-import Multiselect from "react-widgets/Multiselect";
-import "react-widgets/styles.css";
 
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -46,14 +44,15 @@ let schema = yup.object().shape({
   tags: yup.string().required("Tags is Required!!"),
   quantity: yup.number().required("Quantity Required!!"),
 });
+
+
 function AddProduct() {
   const dispatch = useDispatch();
   const [color, setColor] = useState([]);
   const [isFormSubmitted, setIsFormSubmitted] = useState(false);
   const navigate = useNavigate();
-  // const [images, setimages] = useState([]);
-  // const navigate = useNavigate();
-  // console.log(color);
+ 
+  
   useEffect(() => {
     dispatch(getBrands());
   }, [dispatch]);
@@ -137,6 +136,7 @@ function AddProduct() {
 
   return (
     <>
+   <ToastContainer />
       <div>
         <h3 className="mb-4">Add Product</h3>
         <div>

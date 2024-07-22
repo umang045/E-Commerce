@@ -29,7 +29,7 @@ function ProductCard(props) {
 
   return (
     <>
-      {data?.map((item, index) => {
+      {/* {data?.map((item, index) => {
         return (
           <div
             key={index}
@@ -38,26 +38,19 @@ function ProductCard(props) {
             }`}
           >
             <div
-              // to={`${
-              //   location.pathname == "/"
-              //     ? "product/:id"
-              //     : location.pathname == "/product/:id"
-              //     ? "/product/:id"
-              //     : ":id"
-              // }`}
               className="product-card position-relative border-0 bg-white"
             >
               <div className="wishlist-icon position-absolute">
                 <button
-                  className="border bg-transparent"
+                  className="border border-0 bg-transparent"
                   onClick={(e) => {
                     addprodToWishlist(item._id);
                   }}
                 >
                   <img src={wish} alt="wishlist"></img>
-                </button>
+                </button> 
               </div>
-              {/* <div className="product-image"> */}
+              
               <Link to={"/product/" + item?._id}>
                 <img
                   src={item.images[0].url}
@@ -105,7 +98,54 @@ function ProductCard(props) {
             </div>
           </div>
         );
-      })}
+      })} */}
+      <div class="row">
+        <div class="col-md-3 col-sm-6">
+          <div class="product-grid">
+            <div class="product-image">
+              <a href="#" class="image">
+                <img class="pic-1" src={watch} />
+                <img class="pic-2" src={watch} />
+              </a>
+              <span class="product-hot-label">hot</span>
+              <ul class="product-links">
+                <li>
+                  <a href="#" data-tip="Add to Wishlist">
+                    <i class="far fa-heart"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" data-tip="Compare">
+                    <i class="fa fa-random"></i>
+                  </a>
+                </li>
+                <li>
+                  <a href="#" data-tip="Quick View">
+                    <i class="fa fa-search"></i>
+                  </a>
+                </li>
+              </ul>
+            </div>
+            <div class="product-content">
+              <a class="add-to-cart" href="#">
+                <i class="fas fa-plus"></i>Add to cart
+              </a>
+              <h3 class="title">
+                <a href="#">Men's Jacket</a>
+              </h3>
+              <ul class="rating">
+                <li class="fas fa-star"></li>
+                <li class="fas fa-star"></li>
+                <li class="fas fa-star"></li>
+                <li class="far fa-star"></li>
+                <li class="far fa-star"></li>
+              </ul>
+              <div class="price">$75.99</div>
+            </div>
+          </div>
+        </div>
+       
+      </div>
     </>
   );
 }

@@ -11,10 +11,10 @@ function Header() {
   const dispatch = useDispatch();
   const [cartSum, setCartsum] = useState(0);
   const [paginate, setPaginate] = useState(true);
-
+  
+  const authState = useSelector((state) => state?.auth);
   const productState = useSelector((state) => state?.product?.product);
   const cartState = useSelector((state) => state?.auth?.getCart);
-  const authState = useSelector((state) => state?.auth);
 
   const navigate = useNavigate();
 
@@ -24,7 +24,7 @@ function Header() {
       sum += Number(cartState[index]?.quantity) * cartState[index]?.price;
       setCartsum(sum);
     }
-  }, [cartState]);
+  }, [cartState,dispatch]);
 
   const productOpt = useMemo(() => {
     let data = [];

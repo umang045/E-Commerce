@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import CustomInput from "../Components/CustomInput";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
@@ -12,43 +12,34 @@ import {
 } from "../feature/brand/brandSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 
-
-
-
 let schema = yup.object().shape({
   title: yup.string().required("Brand name is  Reuired!!"),
 });
 
-
-
 function Addbrand() {
-
-
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   const getBrandId = location.pathname.split("/")[3];
 
-
-
   const newBrand = useSelector((state) => state?.brand);
   const { brandName } = newBrand;
 
-
+  const updateFormikTitle = useCallback(() => {
+    if (getBrandId != undefined) formik.values.title = brandName;
+  }, [getBrandId, brandName]);
 
   // use effect for update an brand if id is there then its run
   useEffect(() => {
     if (getBrandId != undefined) {
       dispatch(getaBrand(getBrandId));
-      formik.values.title = brandName;
+      updateFormikTitle();
     } else {
       console.log("hello");
     }
-  }, [getBrandId, dispatch, brandName]);
+  }, [getBrandId, updateFormikTitle, brandName]);
 
-  
-
-//formik for submit an data to slice which either update or add
+  //formik for submit an data to slice which either update or add
   const formik = useFormik({
     initialValues: {
       title: "",
@@ -71,7 +62,6 @@ function Addbrand() {
       }
     },
   });
-
 
   return (
     <>

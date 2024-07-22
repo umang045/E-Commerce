@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { NavLink, Link, useNavigate } from "react-router-dom";
 import { BsSearch } from "react-icons/bs";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,7 +15,7 @@ function Header() {
   const productState = useSelector((state) => state?.product?.product);
   const cartState = useSelector((state) => state?.auth?.getCart);
   const authState = useSelector((state) => state?.auth);
-  const [productOpt, setProductOpt] = useState([]);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -26,14 +26,14 @@ function Header() {
     }
   }, [cartState]);
 
-  useEffect(() => {
+  const productOpt = useMemo(() => {
     let data = [];
     for (let index = 0; index < productState?.length; index++) {
       const element = productState[index];
       data.push({ id: index, prod: element?._id, name: element?.title });
     }
-    setProductOpt(data);
-  }, []);
+    return data;
+  }, [productState]);
 
   return (
     <>
@@ -71,6 +71,7 @@ function Header() {
                   id="pagination-example"
                   onPaginate={() => console.log("Results paginated")}
                   onChange={(selected) => {
+                    console.log("onChange:", selected);
                     navigate(`/product/${selected[0]?.prod}`);
                     dispatch(getAProduct(selected[0]?.prod));
                   }}
@@ -142,8 +143,8 @@ function Header() {
                   </Link>
                 </div>
                 <div>
-                  { localStorage.getItem("token") &&
-                    localStorage.getItem("token") != "Invalid Inputs!!"  ? (
+                  {localStorage.getItem("token") &&
+                  localStorage.getItem("token") != "Invalid Inputs!!" ? (
                     <button
                       className="button"
                       style={{

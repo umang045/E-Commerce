@@ -52,8 +52,15 @@ function SingleProduct() {
   };
 
   const handleColorChange = (newColor) => {
-    setcolor(newColor); // Update state with the selected color
+    if (color == null) {
+      setcolor(newColor);
+    } else if (color == newColor) {
+      setcolor(null);
+    } else {
+      setcolor(newColor);
+    }
   };
+  // console.log(color)
 
   useEffect(() => {
     dispatch(getAProduct(getProdId));
@@ -63,6 +70,8 @@ function SingleProduct() {
   const getAProductState = useSelector((state) => state?.product?.getAProduct);
   const getCartState = useSelector((state) => state?.auth?.getCart);
   const url = getAProductState?.images[0].url;
+
+  // console.log(getAProductState);
 
   useEffect(() => {
     for (let index = 0; index < getCartState?.length; index++) {
@@ -182,6 +191,7 @@ function SingleProduct() {
                     <div className="d-flex gap-10 flex-column mt-2 mb-3">
                       <h3 className="product-heading ">Color :</h3>
                       <Color
+                        color = {color}
                         onColorChange={handleColorChange}
                         data={getAProductState?.color || []}
                       />

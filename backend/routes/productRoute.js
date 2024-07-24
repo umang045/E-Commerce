@@ -7,10 +7,12 @@ const {
   getaProduct,
   getAllProduct,
   rating,
+  getProductAll,
 } = require("../controller/productCntrl");
 const { get } = require("mongoose");
 const router = express.Router();
 
+router.get("/prd",getProductAll);
 router.put('/rating',authMiddleware , rating)
 router.post("/", authMiddleware, isAdmin, createProduct);
 router.put("/:id", authMiddleware, isAdmin, updateProduct);

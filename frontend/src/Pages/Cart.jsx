@@ -5,11 +5,13 @@ import { MdDelete } from "react-icons/md";
 import { Link, useNavigate } from "react-router-dom";
 import Container from "../Components/Container";
 import { useDispatch, useSelector } from "react-redux";
+import pocket from "../images/pocket.jpg";
 import {
   getCart,
   removeProductfromCart,
   updateProductfromCart,
 } from "../Features/user/userSlice";
+import { ToastContainer } from "react-toastify";
 
 function Cart() {
   const dispatch = useDispatch();
@@ -17,10 +19,10 @@ function Cart() {
   const [productUpdateDetail, setProductUpdateDetail] = useState(null);
   const [cartSum, setCartsum] = useState(null);
 
-  
   //check if user is login or not
   useEffect(() => {
     if (!localStorage.getItem("token")) {
+      alert("please login first");
       navigate("/login");
     } else {
       dispatch(getCart());
@@ -62,10 +64,16 @@ function Cart() {
 
   return (
     <>
+      <ToastContainer></ToastContainer>
       <Meta title={"Cart"} />
       <BreadCrumb title="Cart" />
 
-      {localStorage?.getItem("token") !== null ? (
+      {cartState?.length === 0 ? (
+        <>
+          <div className="text-center fs-4">No Data In Your Cart </div>
+          <div className="d-flex justify-content-center" style={{height:"200px"}}><img src={pocket} alt="no cart img" srcset="" /></div>
+        </>
+      ) : (
         <Container class1="cart-wrapper home-wrapper-2">
           <div className="row">
             <div className="col-12">
@@ -90,7 +98,6 @@ function Cart() {
                             className="img-fluid"
                             alt="not found"
                           />
-                          {/* <img src={watch} className="img-fluid" alt="not found" /> */}
                         </div>
                         <div className="w-75  ">
                           <p>Name : {item?.pid?.title}</p>
@@ -162,8 +169,6 @@ function Cart() {
             </div>
           </div>
         </Container>
-      ) : (
-        navigate("/login")
       )}
     </>
   );

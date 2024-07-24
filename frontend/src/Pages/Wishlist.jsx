@@ -10,7 +10,6 @@ function Wishlist() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
   useEffect(() => {
     if (!localStorage.getItem("token")) {
       navigate("/login");
@@ -18,7 +17,6 @@ function Wishlist() {
       dispatch(getWishlist());
     }
   }, [dispatch, navigate]);
-
 
   const removeFromWishlist = (id) => {
     dispatch(addToWishlist(id));
@@ -30,7 +28,6 @@ function Wishlist() {
   const wishlistState = useSelector(
     (state) => state?.auth?.getWishlist?.wishlist
   );
-
 
   return (
     <>

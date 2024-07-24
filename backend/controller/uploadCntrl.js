@@ -10,14 +10,15 @@ const uploadImages = asyncHandler(async (req, res, next) => {
     const uploader = (path) => cloudinaryUploadingImg(path, "Images");
     const urls = [];
     const files = req.files;
-
+    // console.log(files)
     for (const file of files) {
       const { path } = file;
+      console.log(path)
       const newpath = await uploader(path);
-    //   console.log(newpath);
       urls.push(newpath);
       fs.unlinkSync(path);
     }
+    // console.log(path)
     const images = urls.map((file) => {
       return file;
     });

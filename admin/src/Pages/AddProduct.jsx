@@ -91,7 +91,7 @@ function AddProduct() {
     });
   });
   const img = [];
-  imageState.forEach((i) => {
+  imageState?.forEach((i) => {
     img.push({
       public_id: i.public_id,
       url: i.url,
@@ -278,7 +278,7 @@ function AddProduct() {
             </div>
 
             <div className="showimages d-flex mt-3  ">
-              {imageState.map((i, j) => {
+              {imageState?.map((i, j) => {
                 return (
                   <div className="position-relative" key={j}>
                     <button

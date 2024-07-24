@@ -48,8 +48,17 @@ const deleteProduct = asyncHandler(async (req, res, next) => {
 const getaProduct = asyncHandler(async (req, res, next) => {
   const { id } = req.params;
   try {
-    const product = await Product.findById(id).populate('color');
+    const product = await Product.findById(id).populate("color");
     res.json(product);
+  } catch (error) {
+    throw new Error(error);
+  }
+});
+
+const getProductAll = asyncHandler(async (req, res, next) => {
+  try {
+    const allprdct = await Product.find();
+    res.json(allprdct);
   } catch (error) {
     throw new Error(error);
   }
@@ -95,7 +104,7 @@ const getAllProduct = asyncHandler(async (req, res, next) => {
 
     // console.log(query)
     const page = Number(req.query.page) || 1;
-    const limit = Number(req.query.limit) || 5;
+    const limit = Number(req.query.limit) || 6;
     const skip = (page - 1) * limit;
     // console.log(page  , limit , skip)
     query = query.skip(skip).limit(limit);
@@ -171,11 +180,10 @@ const rating = asyncHandler(async (req, res, next) => {
   }
 });
 
-
-
 module.exports = {
   createProduct,
   getAllProduct,
+  getProductAll,
   getaProduct,
   updateProduct,
   deleteProduct,

@@ -6,34 +6,54 @@ import ReactStars from "react-rating-stars-component";
 import Color from "../Components/Color";
 import Container from "../Components/Container";
 import { useDispatch, useSelector } from "react-redux";
-import { getAllProducts } from "../Features/product/productSlice";
+
+import {
+  getAllProducts,
+  getProductAll,
+} from "../Features/product/productSlice";
 import { ToastContainer } from "react-toastify";
 
 function OurStore() {
   const [grid, setGrid] = useState(4);
   const dispatch = useDispatch();
+
+  //simple state
   const [brands, setBrands] = useState([]);
   const [categories, setCategories] = useState([]);
   const [tags, settags] = useState([]);
 
+  //maintainstate
+  const [nwbrands, setnwBrands] = useState([]);
+  const [nwcategories, setnwCategories] = useState([]);
+  const [nwtags, setnwTags] = useState([]);
+
   //filter State
-  const [brand, setBrand] = useState([]);
-  const [tag, setTag] = useState([]);
-  const [category, setcategory] = useState([]);
+  const [brand, setBrand] = useState(null);
+  const [tag, setTag] = useState(null);
+  const [category, setcategory] = useState(null);
   const [minPrice, setMinPrice] = useState(null);
   const [maxPrice, setMaxPrice] = useState(null);
   const [sort, setSort] = useState(null);
+  const [page, setPage] = useState(null);
 
-  console.log(sort);
-
+  // console.log(page);
+  console.log(brand, tag, category, minPrice, maxPrice, sort);
   const productState = useSelector((state) => state?.product?.product);
+  const getAllProdState = useSelector((state) => state?.product?.getProductAll);
+
+  // console.log(productState.length);
+  // console.log(nwtags);
+
+  useEffect(() => {
+    dispatch(getProductAll());
+  }, [getProductAll]);
 
   useEffect(() => {
     let newBrands = [];
     let category = [];
     let newtags = [];
-    for (let index = 0; index < productState?.length; index++) {
-      const element = productState[index];
+    for (let index = 0; index < getAllProdState?.length; index++) {
+      const element = getAllProdState[index];
       newBrands.push(element?.brand);
       category.push(element?.category);
       newtags.push(element?.tags);
@@ -41,15 +61,15 @@ function OurStore() {
     setCategories(category);
     setBrands(newBrands);
     settags(newtags);
-  }, [productState]);
+  }, [getAllProdState]);
 
   useEffect(() => {
     getProducts();
-  }, [sort, tag, brand, category, minPrice, maxPrice]);
+  }, [sort, tag, brand, category, minPrice, maxPrice, page]);
 
   const getProducts = () => {
     dispatch(
-      getAllProducts({ sort, tag, brand, category, minPrice, maxPrice })
+      getAllProducts({ sort, tag, brand, category, minPrice, maxPrice, page })
     );
   };
 
@@ -65,14 +85,24 @@ function OurStore() {
           <div className="col-3">
             <div className="filter-card mb-3">
               <h3 className="filter-title">Shop By Categories</h3>
-              <ul className="ps-0">
+              <ul className="ps-0 d-flex flex-wrap gap-15">
                 {categories &&
                   [...new Set(categories)]?.map((item, index) => {
                     return (
                       <li
                         key={index}
+                        style={{
+                          borderBottom:
+                            item === category ? "1px solid black" : "",
+                        }}
                         onClick={() => {
-                          setcategory(item);
+                          if (category == null) {
+                            setcategory(item);
+                          } else if (category == item) {
+                            setcategory(null);
+                          } else {
+                            setcategory(item);
+                          }
                         }}
                       >
                         {item}
@@ -81,31 +111,10 @@ function OurStore() {
                   })}
               </ul>
             </div>
+
             <div className="filter-card mb-3">
               <h3 className="filter-title">Filter By</h3>
-              {/* <div>
-                <div>
-                  <h5 className="sub-title">Availability</h5>
-                  <div className="form-check d-flex align-items-center gap-10">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id=""
-                    ></input>
-                    <label className="form-check-label">In Stocks(1)</label>
-                  </div>
-                  <div className="form-check d-flex align-items-center gap-10">
-                    <input
-                      className="form-check-input"
-                      type="checkbox"
-                      value=""
-                      id=""
-                    ></input>
-                    <label className="form-check-label">Out of Stocks(0)</label>
-                  </div>
-                </div>
-              </div> */}
+
               <div>
                 <h5 className="sub-title">Price</h5>
                 <div className="d-flex align-items-center gap-10">
@@ -135,63 +144,37 @@ function OurStore() {
                   </div>
                 </div>
               </div>
-              {/* <div>
-                <h5 className="sub-title">Color</h5>
-                <div className="d-flex flex-wrap">
-                  <Color />
-                </div>
-              </div> */}
-              {/* <div>
-                <h5 className="sub-title">Size</h5>
-                <div className="form-check d-flex gap-10 align-items-center ">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="size-s"
-                  ></input>
-                  <label className="form-check-label">S (1)</label>{" "}
-                </div>
-                <div className="form-check d-flex gap-10 align-items-center ">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="size-M"
-                  ></input>
-                  <label className="form-check-label">M (1)</label>
-                </div>
-                <div className="form-check d-flex gap-10 align-items-center ">
-                  <input
-                    className="form-check-input"
-                    type="checkbox"
-                    value=""
-                    id="size-XL"
-                  ></input>
-                  <label className="form-check-label">XL (1)</label>
-                </div>
-              </div> */}
             </div>
+
             <div className="filter-card mb-3">
               <h3 className="filter-title">Products Tags</h3>
-              <div className="product-tags d-flex flex-wrap align-items-center gap-10">
-                {tags &&
-                  [...new Set(tags)]?.map((item, index) => {
-                    return (
-                      <span
-                        key={index}
-                        onClick={() => {
+              <div className="product-tags cursor d-flex flex-wrap align-items-center gap-10">
+                {[...new Set(tags)]?.map((item, index) => {
+                  return (
+                    <span
+                      style={{
+                        border: item === tag ? "1px solid black" : "",
+                      }}
+                      key={index}
+                      onClick={() => {
+                        if (tag == null) {
                           setTag(item);
-                        }}
-                        className="badge bg-light text-secondary rounded-3 py-2 px-3"
-                      >
-                        {item}
-                      </span>
-                    );
-                  })}
+                        } else if (tag == item) {
+                          setTag(null);
+                        } else {
+                          setTag(item);
+                        }
+                      }}
+                      className="badge bg-light text-secondary rounded-3 py-2 px-3"
+                    >
+                      {item}
+                    </span>
+                  );
+                })}
               </div>
             </div>
-            <div className="filter-card mb-3">
+
+            <div className="filter-card cursor mb-3">
               <h3 className="filter-title">Products Brands</h3>
               <div className="product-tags d-flex flex-wrap align-items-center gap-10">
                 {brands &&
@@ -199,8 +182,17 @@ function OurStore() {
                     return (
                       <span
                         key={index}
+                        style={{
+                          border: item === brand ? "1px solid black" : "",
+                        }}
                         onClick={() => {
-                          setBrand(item);
+                          if (brand == null) {
+                            setBrand(item);
+                          } else if (brand == item) {
+                            setBrand(null);
+                          } else {
+                            setBrand(item);
+                          }
                         }}
                         className="badge bg-light text-secondary rounded-3 py-2 px-3"
                       >
@@ -210,54 +202,8 @@ function OurStore() {
                   })}
               </div>
             </div>
-            {/* <div className="filter-card mb-3">
-              <h3 className="filter-title">Random Products</h3>
-              <div>
-                <div className="rondom-products mb-3 d-flex">
-                  <div className="w-50">
-                    <img
-                      src="images/watch.jpg"
-                      alt="watch"
-                      className="img-fluid"
-                    ></img>
-                  </div>
-                  <div className="w-50">
-                    <h5>kids headphone bulk 10 pack multi color </h5>
-                    <ReactStars
-                      count={5}
-                      size={24}
-                      value="3"
-                      edit={false}
-                      activeColor="#ffd700"
-                    ></ReactStars>
-                    <b>$300</b>
-                  </div>
-                </div>
-              </div>
-              <div>
-                <div className="rondom-products d-flex">
-                  <div className="w-50">
-                    <img
-                      src="images/watch.jpg"
-                      alt="watch"
-                      className="img-fluid"
-                    ></img>
-                  </div>
-                  <div className="w-50">
-                    <h5>kids headphone bulk 10 pack multi color </h5>
-                    <ReactStars
-                      count={5}
-                      size={24}
-                      value="3"
-                      edit={false}
-                      activeColor="#ffd700"
-                    ></ReactStars>
-                    <b>$300</b>
-                  </div>
-                </div>
-              </div>
-            </div> */}
           </div>
+
           <div className="col-9">
             {/* code for navbar of produvts */}
             <div className="filter-sort-grid mb-4">
@@ -273,14 +219,16 @@ function OurStore() {
                       Alphabetically , A-Z
                     </option>
                     <option value="-title">Alphabetically , Z-A</option>
-                    <option value="price">Price, high-low</option>
-                    <option value="-price">Price, low-high</option>
+                    <option value="-price">Price, high-low</option>
+                    <option value="price">Price, low-high</option>
                     <option value="created">Date, old-new</option>
                     <option value="-created">Date, new-old</option>
                   </select>
                 </div>
                 <div className="d-flex align-items-center gap-10 grid">
-                  <p className="total-products mb-0">21 Products</p>
+                  <p className="total-products mb-0">
+                    {getAllProdState?.length} Products
+                  </p>
                   <div className="d-flex gap-10 align-items-center">
                     <img
                       src="images/gr4.svg"
@@ -319,6 +267,35 @@ function OurStore() {
                   grid={grid}
                 />
               </div>
+            </div>
+
+            {/* code for pagination */}
+            <div className=" w-100  d-flex align-items-center justify-content-center">
+              {page !== null && page != 1 ? (
+                <button
+                  className="btn btn-primary me-4"
+                  onClick={() => {
+                    setPage(page - 1);
+                  }}
+                >
+                  prev
+                </button>
+              ) : (
+                ""
+              )}
+
+              {productState?.length < 6 ? (
+                ""
+              ) : (
+                <button
+                  className="btn btn-primary"
+                  onClick={() => {
+                    page === null ? setPage(2) : setPage(page + 1);
+                  }}
+                >
+                  next
+                </button>
+              )}
             </div>
           </div>
         </div>

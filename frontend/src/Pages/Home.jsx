@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Marquee from "react-fast-marquee";
 import BlogCard from "../Components/BlogCard";
@@ -8,21 +8,32 @@ import Container from "../Components/Container";
 import services from "../utils/Data";
 import { useDispatch, useSelector } from "react-redux";
 import { getAllBlogs } from "../Features/blogs/blogSlice";
-import { getAllProducts } from "../Features/product/productSlice";
+import {
+  getAllProducts,
+  getProductAll,
+} from "../Features/product/productSlice";
 import { useTimer } from "react-timer-hook";
 import { ToastContainer } from "react-toastify";
 
 function Home() {
   const dispatch = useDispatch();
 
+
+
   const blogState = useSelector((state) => state?.blog?.getAllBlogs);
   const productState = useSelector((state) => state?.product?.product);
-  // console.log(productState);
+  const getAllProdState = useSelector((state) => state?.product?.getProductAll);
+  console.log(getAllProdState);
 
   useEffect(() => {
     dispatch(getAllBlogs());
     dispatch(getAllProducts());
-  }, []);
+    dispatch(getProductAll());
+  }, [getAllBlogs, getAllProducts, getProductAll]);
+
+
+
+
 
   return (
     <>
@@ -138,6 +149,7 @@ function Home() {
                   <h6>Cameras</h6>
                   <p>10 Items</p>
                 </div>
+              
                 <img src="images/camera.jpg" alt="Categories"></img>
               </div>
               <div className="d-flex gap-30 align-items-center border-end border-warning ">
@@ -177,8 +189,8 @@ function Home() {
             <h3 className="section-heading">Special Products</h3>
           </div>
           <div className="row">
-            {productState &&
-              productState?.map((item, index) => {
+            {getAllProdState &&
+              getAllProdState?.map((item, index) => {
                 if (item.tags === "special") {
                   return (
                     <SpecialProduct

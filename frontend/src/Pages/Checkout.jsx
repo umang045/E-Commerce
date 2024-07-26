@@ -271,13 +271,11 @@ function Checkout() {
                 </div>
 
                 <div className="w-100">
-                  <div className="d-flex justify-content-between  align-items-center ">
+                  <div className="d-flex justify-content-evenly  align-items-center ">
                     <Link to="/cart" className="text-dark">
                       ⬅️ Return To Cart
                     </Link>
-                    <Link to="/cart" className="button">
-                      Continue To Shipping
-                    </Link>
+                  
                     <button type="submit" className="button border border-0">
                       Buy Now
                     </button>

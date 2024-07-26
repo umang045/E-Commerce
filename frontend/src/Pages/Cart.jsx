@@ -150,11 +150,6 @@ function Cart() {
 
               <div className="col-12 py-2">
                 <div className="d-flex justify-content-around align-items-center ">
-                  <div>
-                    <Link className="button" to="/product">
-                      Continue To Shopping
-                    </Link>
-                  </div>
                   {(cartSum !== null || cartSum !== 0) && (
                     <div className="d-flex flex-column align-items-center">
                       <h4>Subtotal : ${cartSum}</h4>

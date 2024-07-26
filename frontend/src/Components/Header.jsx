@@ -6,14 +6,18 @@ import { Typeahead } from "react-bootstrap-typeahead";
 import "react-bootstrap-typeahead/css/Typeahead.css";
 import { getAProduct } from "../Features/product/productSlice";
 import { toast, ToastContainer } from "react-toastify";
+import { FaRegHeart } from "react-icons/fa";
+import { TiShoppingCart } from "react-icons/ti";
+import { IoPerson } from "react-icons/io5";
 
 function Header() {
   const dispatch = useDispatch();
   const [cartSum, setCartsum] = useState(0);
   const [paginate, setPaginate] = useState(true);
-  
+
   const authState = useSelector((state) => state?.auth);
   const productState = useSelector((state) => state?.product?.product);
+  const getAllProdState = useSelector((state) => state?.product?.getProductAll);
   const cartState = useSelector((state) => state?.auth?.getCart);
 
   const navigate = useNavigate();
@@ -24,16 +28,16 @@ function Header() {
       sum += Number(cartState[index]?.quantity) * cartState[index]?.price;
       setCartsum(sum);
     }
-  }, [cartState,dispatch]);
+  }, [cartState, dispatch]);
 
   const productOpt = useMemo(() => {
     let data = [];
-    for (let index = 0; index < productState?.length; index++) {
-      const element = productState[index];
+    for (let index = 0; index < getAllProdState?.length; index++) {
+      const element = getAllProdState[index];
       data.push({ id: index, prod: element?._id, name: element?.title });
     }
     return data;
-  }, [productState]);
+  }, [getAllProdState]);
 
   return (
     <>
@@ -71,9 +75,13 @@ function Header() {
                   id="pagination-example"
                   onPaginate={() => console.log("Results paginated")}
                   onChange={(selected) => {
-                    console.log("onChange:", selected);
-                    navigate(`/product/${selected[0]?.prod}`);
+                    // console.log(selected);
                     dispatch(getAProduct(selected[0]?.prod));
+                    if (selected[0]?.prod != undefined && selected.length > 0) {
+                      navigate(`/product/${selected[0]?.prod}`);
+                    } else {
+                      navigate(`/product/`);
+                    }
                   }}
                   options={productOpt}
                   labelKey={"name"}
@@ -104,7 +112,7 @@ function Header() {
                     to="/wishlist"
                     className="d-flex align-items-center gap-10 text-white"
                   >
-                    <img src="images/wishlist.svg" alt="Wishlist"></img>
+                    <FaRegHeart className="icons" />
                     <p className="mb-2">
                       Favourite <br />
                       Wishlist
@@ -117,7 +125,7 @@ function Header() {
                     to="/cart"
                     className="d-flex align-items-center gap-10 text-white"
                   >
-                    <img src="images/cart.svg" alt="Cart"></img>
+                    <TiShoppingCart className="icons" />
                     <div className="d-flex flex-column">
                       <span className="badge bg-white text-dark">
                         {cartState?.length ? cartState?.length : 0}
@@ -131,7 +139,8 @@ function Header() {
                     to={authState.user === null ? "/login" : "/my-profile"}
                     className="d-flex align-items-center gap-10 text-white"
                   >
-                    <img src="images/user.svg" alt="User"></img>
+                    <IoPerson className="icons" />
+
                     {localStorage.getItem("token") &&
                     localStorage.getItem("token") != "Invalid Inputs!!" ? (
                       <p className="mb-0">
@@ -177,7 +186,7 @@ function Header() {
           <div className="row">
             <div className="col-12">
               <div className="menu-bottom d-flex align-items-center gap-30">
-                <div>
+                {/* <div>
                   <div className="dropdown bg-transperent">
                     <button
                       className="btn btn-secondary dropdown-toggle bg-transparent border-0 outline-0 d-flex align-items-center gap-15"
@@ -206,9 +215,9 @@ function Header() {
                       </li>
                     </ul>
                   </div>
-                </div>
-                <div className="menu-link">
-                  <div className="d-flex align-items-center gap-15 ">
+                </div> */}
+                <div className="menu-link d-flex align-items-center justify-content-center w-100">
+                  <div className="d-flex align-items-center gap-30 ">
                     <NavLink to="/">Home</NavLink>
                     <NavLink to="/product">Our Store</NavLink>
                     <NavLink to="/my-orders">My Orders</NavLink>

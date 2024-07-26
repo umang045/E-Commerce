@@ -31,8 +31,7 @@ function ProductCard(props) {
 
   return (
     <>
-     
-    {data?.map((item, index) => {
+      {data?.map((item, index) => {
         return (
           <div
             key={index}
@@ -40,21 +39,18 @@ function ProductCard(props) {
               location.pathname == "/product" ? `gr-${grid.grid}` : "col-3"
             }`}
           >
-            <div
-              className="product-card position-relative border-0 bg-white"
-            >
+            <div className="product-card position-relative border-0 bg-white">
               <div className="wishlist-icon position-absolute">
                 <button
                   className="border border-0 bg-transparent"
                   onClick={(e) => {
-                    addprodToWishlist(item._id);          
+                    addprodToWishlist(item._id);
                   }}
                 >
-                 <FaRegHeart /> 
-                 
-                </button> 
+                  <FaRegHeart />
+                </button>
               </div>
-              
+
               <Link to={"/product/" + item?._id}>
                 <img
                   src={item.images[0].url}

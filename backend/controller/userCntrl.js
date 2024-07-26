@@ -7,6 +7,7 @@ const Order = require("../model/orderModel");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const uniqid = require("uniqid");
+const factory = require('./handleFactory')
 
 //create end point for createUser
 const registerUser = asyncHandler(async (req, res, next) => {
@@ -19,15 +20,7 @@ const registerUser = asyncHandler(async (req, res, next) => {
 });
 
 //create end point for deleteUser
-const deleteUser = asyncHandler(async (req, res, next) => {
-  try {
-    const { id } = req.params;
-    const user = await User.findByIdAndDelete(id);
-    res.json(user);
-  } catch (error) {
-    throw new Error(error);
-  }
-});
+const deleteUser = factory.deletOne(User);
 
 //const updateUser
 const updateUser = asyncHandler(async (req, res, next) => {
@@ -90,7 +83,9 @@ const loginUser = asyncHandler(async (req, res, next) => {
       maxAge: 70 * 60 * 60 * 1000,
     });
 
-    res.json({ updateUser });
+    res.json({refreshToken
+      
+    });
   } else {
     throw new Error("Invalid Inputs!!");
   }
@@ -125,7 +120,7 @@ const adminLogin = asyncHandler(async (req, res, next) => {
       maxAge: 70 * 60 * 60 * 1000,
     });
 
-    res.json({ updateUser });
+    res.json({ refreshToken,updateUser });
   } else {
     throw new Error("Invalid Inputs!!");
   }

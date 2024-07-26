@@ -15,6 +15,7 @@ import { getAProduct, rateProduct } from "../Features/product/productSlice";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { addToCart, getCart } from "../Features/user/userSlice";
+import { BiArrowBack } from "react-icons/bi";
 
 function SingleProduct() {
   const [color, setcolor] = useState(null);
@@ -99,6 +100,7 @@ function SingleProduct() {
           price: getAProductState?.price,
         })
       );
+      setAlreadyAdded(true);
     }
   };
 
@@ -116,6 +118,9 @@ function SingleProduct() {
       <BreadCrumb title="Single Products" />
       <ToastContainer />
       <Container class1="main-product-wrapper py-5 home-wrapper-2">
+        <button className="bg-transpatent btn btn-outline-primary border-0 fs-6 m-3 d-flex align-items-center gap-1">
+          <BiArrowBack className="fs-5" /> Go Back
+        </button>
         <div className="row">
           <div className="col-6">
             <div className="main-product-image">
@@ -191,7 +196,7 @@ function SingleProduct() {
                     <div className="d-flex gap-10 flex-column mt-2 mb-3">
                       <h3 className="product-heading ">Color :</h3>
                       <Color
-                        color = {color}
+                        color={color}
                         onColorChange={handleColorChange}
                         data={getAProductState?.color || []}
                       />

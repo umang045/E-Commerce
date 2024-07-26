@@ -22,10 +22,7 @@ function OurStore() {
   const [categories, setCategories] = useState([]);
   const [tags, settags] = useState([]);
 
-  //maintainstate
-  const [nwbrands, setnwBrands] = useState([]);
-  const [nwcategories, setnwCategories] = useState([]);
-  const [nwtags, setnwTags] = useState([]);
+
 
   //filter State
   const [brand, setBrand] = useState(null);
@@ -37,7 +34,7 @@ function OurStore() {
   const [page, setPage] = useState(null);
 
   // console.log(page);
-  console.log(brand, tag, category, minPrice, maxPrice, sort);
+  // console.log(brand, tag, category, minPrice, maxPrice, sort);
   const productState = useSelector((state) => state?.product?.product);
   const getAllProdState = useSelector((state) => state?.product?.getProductAll);
 

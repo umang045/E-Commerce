@@ -61,7 +61,7 @@ a {
     background-color: var(--color-febd69);
 }
 
-.header-upper .header-upper-links img {
+.header-upper .header-upper-links .icons {
     width: 35px;
     height: 35px;
 }
@@ -274,6 +274,7 @@ a {
 /* Product card start */
 
 .product-card {
+    height: 100%;
     padding: 15px;
     background-color: white;
     border-radius: 10px;

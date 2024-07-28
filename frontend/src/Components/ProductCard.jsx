@@ -33,17 +33,24 @@ function ProductCard(props) {
     <>
       {data?.map((item, index) => {
         return (
-          <div
+          <Link
             key={index}
             className={`${
               location.pathname == "/product" ? `gr-${grid.grid}` : "col-3"
             }`}
           >
             <div className="product-card position-relative border-0 bg-white">
+              {item?.availability ? (
+                <></>
+              ) : (
+                <div className="fw-bold" style={{ color: "red" }}>
+                  Comming Soon...
+                </div>
+              )}
               <div className="wishlist-icon position-absolute">
                 <button
                   className="border border-0 bg-transparent"
-                  onClick={(e) => {
+                  onClick={() => {
                     addprodToWishlist(item._id);
                   }}
                 >
@@ -79,24 +86,8 @@ function ProductCard(props) {
                 ></p>
                 <p className="price">${item?.price}</p>
               </div>
-              <div className="action-bar position-absolute">
-                <div className="d-flex flex-column gap-15">
-                  <button className="border-0 bg-transparent">
-                    <img src={compare} alt="compare"></img>
-                  </button>
-                  <Link
-                    to={"/product/" + item?._id}
-                    className="border-0 bg-transparent"
-                  >
-                    <img src={view} alt="view"></img>
-                  </Link>
-                  <button className="border-0 bg-transparent">
-                    <img src={cart} alt="addcart"></img>
-                  </button>
-                </div>
-              </div>
             </div>
-          </div>
+          </Link>
         );
       })}
     </>

@@ -7,7 +7,7 @@ const Order = require("../model/orderModel");
 const asyncHandler = require("express-async-handler");
 const jwt = require("jsonwebtoken");
 const uniqid = require("uniqid");
-const factory = require('./handleFactory')
+const factory = require("./handleFactory");
 
 //create end point for createUser
 const registerUser = asyncHandler(async (req, res, next) => {
@@ -83,9 +83,7 @@ const loginUser = asyncHandler(async (req, res, next) => {
       maxAge: 70 * 60 * 60 * 1000,
     });
 
-    res.json({refreshToken
-      
-    });
+    res.json({ updateUser });
   } else {
     throw new Error("Invalid Inputs!!");
   }
@@ -120,7 +118,7 @@ const adminLogin = asyncHandler(async (req, res, next) => {
       maxAge: 70 * 60 * 60 * 1000,
     });
 
-    res.json({ refreshToken,updateUser });
+    res.json({ refreshToken, updateUser });
   } else {
     throw new Error("Invalid Inputs!!");
   }
@@ -137,7 +135,6 @@ const logout = asyncHandler(async (req, res, next) => {
   if (!findUser) {
     throw new Error("User not found with this Token");
   } else {
-    
     res.clearCookie("refreshToken", {
       httpOnly: true,
       secure: true,
@@ -335,6 +332,28 @@ const createOrder = asyncHandler(async (req, res, next) => {
   const { _id } = req.user;
   try {
     const user = await Order.create(req.body);
+    const orderItems = req.body.orderItems;
+
+    for (const item of orderItems) {
+      const checkProdStock = await Product.findById(item.product);
+      if (checkProdStock.quantity == item.qantity) {
+        const findProd = await Product.findByIdAndUpdate(
+          item.product,
+          {
+            availability: false,
+          },
+          { new: true }
+        );
+      }
+
+      const updateProdQuantity = await Product.findByIdAndUpdate(
+        item.product,
+        {
+          $inc: { quantity: -item.qantity, sold: +item.qantity },
+        },
+        { new: true }
+      );
+    }
     res.json(user);
   } catch (error) {
     throw new Error(error);

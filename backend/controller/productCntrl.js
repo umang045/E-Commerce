@@ -3,7 +3,7 @@ const Product = require("../model/productModel");
 const User = require("../model/userModel");
 const slugify = require("slugify");
 const fs = require("fs");
-const factory = require('./handleFactory')
+const factory = require("./handleFactory");
 
 //const create endpoint for create new Product
 const createProduct = asyncHandler(async (req, res, next) => {
@@ -35,7 +35,7 @@ const updateProduct = asyncHandler(async (req, res, next) => {
 });
 
 //const delete product
-const deleteProduct = factory.deletOne(Product)
+const deleteProduct = factory.deletOne(Product);
 
 //const get a product
 const getaProduct = asyncHandler(async (req, res, next) => {
@@ -51,9 +51,7 @@ const getaProduct = asyncHandler(async (req, res, next) => {
 const getProductAll = asyncHandler(async (req, res, next) => {
   try {
     const allprdct = await Product.find();
-    res.json({
-      results: allprdct.length,
-      allprdct});
+   res.send(allprdct)
   } catch (error) {
     throw new Error(error);
   }

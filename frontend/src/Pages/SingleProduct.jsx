@@ -16,6 +16,7 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { addToCart, getCart } from "../Features/user/userSlice";
 import { BiArrowBack } from "react-icons/bi";
+import Loading from "../Components/Loading";
 
 function SingleProduct() {
   const [color, setcolor] = useState(null);
@@ -49,7 +50,6 @@ function SingleProduct() {
         dispatch(getAProduct(getProdId));
       }, 100);
     }
-    return false;
   };
 
   const handleColorChange = (newColor) => {
@@ -61,7 +61,6 @@ function SingleProduct() {
       setcolor(newColor);
     }
   };
-  // console.log(color)
 
   useEffect(() => {
     dispatch(getAProduct(getProdId));
@@ -69,10 +68,11 @@ function SingleProduct() {
   }, [dispatch, getProdId]);
 
   const getAProductState = useSelector((state) => state?.product?.getAProduct);
+  const isLoading = useSelector((state) => state?.product?.isLoading);
   const getCartState = useSelector((state) => state?.auth?.getCart);
   const url = getAProductState?.images[0].url;
 
-  // console.log(getAProductState);
+  console.log(isLoading);
 
   useEffect(() => {
     for (let index = 0; index < getCartState?.length; index++) {
@@ -90,6 +90,10 @@ function SingleProduct() {
     }
     if (color === null) {
       toast.error("Please Select One Color");
+      return false;
+    }
+    if (quantity > getAProductState?.quantity) {
+      toast.error(`you can order between 0 to ${getAProductState?.quantity}`);
       return false;
     } else {
       dispatch(
@@ -117,8 +121,19 @@ function SingleProduct() {
       <Meta title={"Single Product"} />
       <BreadCrumb title="Single Products" />
       <ToastContainer />
+
       <Container class1="main-product-wrapper py-5 home-wrapper-2">
-        <button className="bg-transpatent btn btn-outline-primary border-0 fs-6 m-3 d-flex align-items-center gap-1">
+        {isLoading ? (
+          <div className="w-100 bg-light d-flex align-items-center justify-content-center" style={{ height: "100vh" }}>
+            <Loading />
+          </div>
+        ) : (
+          <></>
+        )}
+        <button
+          className="bg-transpatent btn btn-outline-primary border-0 fs-6 m-3 d-flex align-items-center gap-1"
+          onClick={() => navigate("/product")}
+        >
           <BiArrowBack className="fs-5" /> Go Back
         </button>
         <div className="row">
@@ -188,58 +203,71 @@ function SingleProduct() {
                 </div>
                 <div className="d-flex gap-10 align-items-center mt-2 mb-3">
                   <h3 className="product-heading">Availability :</h3>
-                  <p className="product-data">Instocks</p>
+                  <p className="product-data">
+                    {getAProductState?.availability
+                      ? "Instocks"
+                      : "Out Of Stocks"}
+                  </p>
                 </div>
 
-                {alreadyAdded === false && (
+                {getAProductState?.availability ? (
                   <>
-                    <div className="d-flex gap-10 flex-column mt-2 mb-3">
-                      <h3 className="product-heading ">Color :</h3>
-                      <Color
-                        color={color}
-                        onColorChange={handleColorChange}
-                        data={getAProductState?.color || []}
-                      />
+                    {" "}
+                    {alreadyAdded === false && (
+                      <>
+                        <div className="d-flex gap-10 flex-column mt-2 mb-3">
+                          <h3 className="product-heading ">Color :</h3>
+                          <Color
+                            color={color}
+                            onColorChange={handleColorChange}
+                            data={getAProductState?.color || []}
+                          />
+                        </div>
+                      </>
+                    )}
+                    <div className="d-flex gap-10 align-items-center  mt-2 mb-3">
+                      {alreadyAdded === false && (
+                        <>
+                          <h3 className="product-heading ">Quantity :</h3>
+                          <div className="quantity">
+                            <input
+                              type="number"
+                              name=""
+                              id=""
+                              defaultValue={1}
+                              min={1}
+                              max={10}
+                              style={{ width: "70px" }}
+                              className="form-control"
+                              onChange={(e) => {
+                                e.target.value > getAProductState?.quantity
+                                  ? toast.error(
+                                      `you can order between 0 to ${getAProductState?.quantity}`
+                                    )
+                                  : setQuantity(e.target.value);
+                              }}
+                            />
+                          </div>
+                        </>
+                      )}
+                    </div>
+                    <div className="d-flex align-items-center gap-30 mt-2 mb-3  justify-content-center ">
+                      <button
+                        type="submit"
+                        className="button border-0"
+                        onClick={() =>
+                          alreadyAdded ? navigate("/cart") : uploadCart()
+                        }
+                      >
+                        {alreadyAdded ? "Go To Cart" : "Add To Cart"}
+                      </button>
                     </div>
                   </>
+                ) : (
+                  <div className="text-center fs-5 ">
+                    Product Comming Soon...
+                  </div>
                 )}
-                <div className="d-flex gap-10 align-items-center  mt-2 mb-3">
-                  {alreadyAdded === false && (
-                    <>
-                      <h3 className="product-heading ">Quantity :</h3>
-                      <div className="quantity">
-                        <input
-                          type="number"
-                          name=""
-                          id=""
-                          defaultValue={1}
-                          min={1}
-                          max={10}
-                          style={{ width: "70px" }}
-                          className="form-control"
-                          onChange={(e) => {
-                            setQuantity(e.target.value);
-                          }}
-                        />
-                      </div>
-                    </>
-                  )}
-                </div>
-                <div className="d-flex align-items-center gap-30 mt-2 mb-3  justify-content-center ">
-                  <button
-                    type="submit"
-                    className="button border-0"
-                    onClick={() =>
-                      alreadyAdded ? navigate("/cart") : uploadCart()
-                    }
-                  >
-                    {alreadyAdded ? "Go To Cart" : "Add To Cart"}
-                  </button>
-                </div>
-                <div className="d-flex align-items-center  mt-2 mb-3 gap-15">
-                  <FaRegHeart />
-                  <a href="">Add To Wishlist</a>
-                </div>
               </div>
             </div>
           </div>

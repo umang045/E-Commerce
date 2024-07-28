@@ -6,6 +6,7 @@ import Countdown from "react-countdown";
 function SpecialProduct(props) {
   const Completionist = () => <span>Sale is over</span>;
   const { id, src, title, brand, price, totalratting, quantity, sold } = props;
+  // console.log(props);
 
   return (
     <>
@@ -45,10 +46,10 @@ function SpecialProduct(props) {
                   <div
                     className="progress-bar"
                     role="progressbar"
-                    style={{ width: quantity / quantity + sold * 100 }}
-                    aria-valuenow={quantity / quantity + sold * 100}
-                    aria-valuemin={quantity}
-                    aria-valuemax={sold + quantity}
+                    style={{ width: quantity }}
+                    aria-valuenow={sold}
+                    aria-valuemin={0}
+                    aria-valuemax={quantity}
                   ></div>
                 </div>
               </div>

@@ -12,6 +12,7 @@ import {
   updateProductfromCart,
 } from "../Features/user/userSlice";
 import { ToastContainer } from "react-toastify";
+import Loading from "../Components/Loading";
 
 function Cart() {
   const dispatch = useDispatch();
@@ -47,6 +48,8 @@ function Cart() {
 
   //fetch cart state
   const cartState = useSelector((state) => state?.auth?.getCart);
+  const isLoading =  useSelector((state)=>state?.auth?.isLoading)
+  // console.log(isLoading);
 
   //delete item from cart
   const deleteACart = (id) => {
@@ -67,11 +70,23 @@ function Cart() {
       <ToastContainer></ToastContainer>
       <Meta title={"Cart"} />
       <BreadCrumb title="Cart" />
+      {isLoading ? (
+          <div className="w-100 bg-light d-flex align-items-center justify-content-center" style={{ height: "100vh" }}>
+            <Loading />
+          </div>
+        ) : (
+          <></>
+        )}
 
       {cartState?.length === 0 ? (
         <>
           <div className="text-center fs-4">No Data In Your Cart </div>
-          <div className="d-flex justify-content-center" style={{height:"200px"}}><img src={pocket} alt="no cart img" srcset="" /></div>
+          <div
+            className="d-flex justify-content-center"
+            style={{ height: "200px" }}
+          >
+            <img src={pocket} alt="no cart img" srcset="" />
+          </div>
         </>
       ) : (
         <Container class1="cart-wrapper home-wrapper-2">
@@ -134,7 +149,8 @@ function Cart() {
                         </div>
                         <div>
                           <MdDelete
-                            className="text-danger "
+                            style={{ cursor: "pointer" , height:"25px"}}
+                            className="text-danger w-100"
                             onClick={() => {
                               deleteACart(item?._id);
                             }}

@@ -2,10 +2,13 @@ import React, { useEffect, useState } from "react";
 import BreadCrumb from "./BreadCrumb";
 import Meta from "../Components/Meta";
 import ProductCard from "../Components/ProductCard";
-import ReactStars from "react-rating-stars-component";
-import Color from "../Components/Color";
 import Container from "../Components/Container";
 import { useDispatch, useSelector } from "react-redux";
+
+import gr4 from "../images/gr4.svg";
+import gr3 from "../images/gr3.svg";
+import gr2 from "../images/gr2.svg";
+import gr from "../images/gr.svg";
 
 import {
   getAllProducts,
@@ -22,8 +25,6 @@ function OurStore() {
   const [categories, setCategories] = useState([]);
   const [tags, settags] = useState([]);
 
-
-
   //filter State
   const [brand, setBrand] = useState(null);
   const [tag, setTag] = useState(null);
@@ -33,6 +34,7 @@ function OurStore() {
   const [sort, setSort] = useState(null);
   const [page, setPage] = useState(null);
 
+  console.log(minPrice, maxPrice);
   // console.log(page);
   // console.log(brand, tag, category, minPrice, maxPrice, sort);
   const productState = useSelector((state) => state?.product?.product);
@@ -111,7 +113,6 @@ function OurStore() {
 
             <div className="filter-card mb-3">
               <h3 className="filter-title">Filter By</h3>
-
               <div>
                 <h5 className="sub-title">Price</h5>
                 <div className="d-flex align-items-center gap-10">
@@ -122,7 +123,7 @@ function OurStore() {
                       id="floatingInput1"
                       placeholder="From"
                       onChange={(e) => {
-                        setMinPrice(e.target.value);
+                        setMinPrice(e.target.value ? e.target.value : null);
                       }}
                     />
                     <label htmlFor="floatingInput">From</label>
@@ -134,7 +135,7 @@ function OurStore() {
                       id="floatingInput2"
                       placeholder="To"
                       onChange={(e) => {
-                        setMaxPrice(e.target.value);
+                        setMaxPrice(e.target.value ? e.target.value : null);
                       }}
                     />
                     <label htmlFor="floatingInput">To</label>
@@ -228,25 +229,25 @@ function OurStore() {
                   </p>
                   <div className="d-flex gap-10 align-items-center">
                     <img
-                      src="images/gr4.svg"
+                      src={gr4}
                       className="d-block img-fluid"
                       alt="grid"
                       onClick={() => setGrid(3)}
                     ></img>
                     <img
-                      src="images/gr3.svg"
+                      src={gr3}
                       className="d-block img-fluid"
                       alt="grid"
                       onClick={() => setGrid(4)}
                     ></img>
                     <img
-                      src="images/gr2.svg"
+                      src={gr2}
                       className="d-block img-fluid"
                       alt="grid"
                       onClick={() => setGrid(6)}
                     ></img>
                     <img
-                      src="images/gr.svg"
+                      src={gr}
                       className="d-block img-fluid"
                       alt="grid"
                       onClick={() => setGrid(12)}

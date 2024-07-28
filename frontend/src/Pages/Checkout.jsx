@@ -29,9 +29,9 @@ function Checkout() {
   const dispatch = useDispatch();
   const cartState = useSelector((state) => state?.auth?.getCart);
   const id = localStorage.getItem("id");
-  console.log(id);
-  console.log(id.slice(1, id.length - 1));
-  console.log(cartState);
+  // console.log(id);
+  // console.log(id.slice(1, id.length - 1));
+  // console.log(cartState);
 
   useEffect(() => {
     if (cartState) {
@@ -77,7 +77,7 @@ function Checkout() {
         orderItems: cartItems,
         totalPrice: cartSum,
       };
-      console.log(checkOutData);
+      // console.log(checkOutData);
 
       axios
         .post(

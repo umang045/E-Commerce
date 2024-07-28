@@ -18,22 +18,12 @@ import { ToastContainer } from "react-toastify";
 function Home() {
   const dispatch = useDispatch();
 
-
-
-  const blogState = useSelector((state) => state?.blog?.getAllBlogs);
-  const productState = useSelector((state) => state?.product?.product);
   const getAllProdState = useSelector((state) => state?.product?.getProductAll);
-  console.log(getAllProdState);
+  // console.log(getAllProdState);
 
   useEffect(() => {
-    dispatch(getAllBlogs());
-    dispatch(getAllProducts());
     dispatch(getProductAll());
-  }, [getAllBlogs, getAllProducts, getProductAll]);
-
-
-
-
+  }, [getProductAll]);
 
   return (
     <>
@@ -149,7 +139,7 @@ function Home() {
                   <h6>Cameras</h6>
                   <p>10 Items</p>
                 </div>
-              
+
                 <img src="images/camera.jpg" alt="Categories"></img>
               </div>
               <div className="d-flex gap-30 align-items-center border-end border-warning ">

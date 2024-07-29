@@ -37,7 +37,6 @@ function Login() {
       dispatch(loginUser(values));
       setTimeout(() => {
         let msg = localStorage.getItem("token");
-
         if (msg == "Invalid Inputs!!") {
           toast.error(msg);
         } else {

@@ -214,10 +214,16 @@ a {
 
 /* Blog Part start */
 
+.blghei {
+    height: 100%;
+}
+
 .blog-card {
     background-color: white;
     /* padding: 20px; */
     border-radius: 10px;
+    height: 500px;
+    overflow: auto;
 }
 
 .blog-card img {

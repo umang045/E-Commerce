@@ -118,7 +118,7 @@ const adminLogin = asyncHandler(async (req, res, next) => {
       maxAge: 70 * 60 * 60 * 1000,
     });
 
-    res.json({ refreshToken, updateUser });
+    res.json(updateUser);
   } else {
     throw new Error("Invalid Inputs!!");
   }

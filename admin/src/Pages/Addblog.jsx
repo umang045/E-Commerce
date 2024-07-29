@@ -29,6 +29,9 @@ let schema = yup.object().shape({
 
 
 function Addblog() {
+
+
+
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
@@ -127,7 +130,7 @@ function Addblog() {
             value={formik.values.category}
           >
             <option value="">Select Blog Category</option>
-            {blogcatState.map((i, j) => {
+            {blogcatState?.map((i, j) => {
               return (
                 <option key={j} value={i.title}>
                   {i.title}
@@ -165,7 +168,7 @@ function Addblog() {
           </div>
 
           <div className="showimages d-flex mt-3  ">
-            {imageState.map((i, j) => {
+            {imageState?.map((i, j) => {
               return (
                 <div className="position-relative" key={j}>
                   <button

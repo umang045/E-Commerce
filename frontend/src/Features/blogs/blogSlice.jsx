@@ -3,12 +3,20 @@ import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { blogService } from "./blogService";
 
+export const getAllBlogs = createAsyncThunk("blog/get", async (thunkAPI) => {
+  try {
+    return await blogService.getAllBlogs();
+  } catch (error) {
+    return thunkAPI.rejectWithValue(error);
+    // throw new Error(error)
+  }
+});
 
-export const getAllBlogs = createAsyncThunk(
-  "blog/get",
-  async (thunkAPI) => {
+export const getABlog = createAsyncThunk(
+  "blog/get-one",
+  async (id, thunkAPI) => {
     try {
-      return await blogService.getAllBlogs();
+      return await blogService.getABlog(id);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
       // throw new Error(error)
@@ -16,11 +24,23 @@ export const getAllBlogs = createAsyncThunk(
   }
 );
 
-export const getABlog = createAsyncThunk(
-  "blog/get-one",
-  async (id,thunkAPI) => {
+export const likeBlog = createAsyncThunk(
+  "blog/like",
+  async (data, thunkAPI) => {
     try {
-      return await blogService.getABlog(id);
+      console.log(data);
+      return await blogService.likeBlog(data);
+    } catch (error) {
+      return thunkAPI.rejectWithValue(error);
+      // throw new Error(error)
+    }
+  }
+);
+export const dislikeBlog = createAsyncThunk(
+  "blog/dislike",
+  async (data, thunkAPI) => {
+    try {
+      return await blogService.dislikeBlog(data);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);
       // throw new Error(error)
@@ -73,8 +93,40 @@ export const blogSlice = createSlice({
         state.isError = action.error;
         state.isSuccess = true;
         state.user = null;
-      });
+      })
+      .addCase(likeBlog.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(likeBlog.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.likeBlog = action.payload;
+        state.message = "success";
+      })
+      .addCase(likeBlog.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.error;
+        state.isSuccess = true;
+        state.user = null;
+      })
+      .addCase(dislikeBlog.pending, (state) => {
+        state.isLoading = true;
+      })
+      .addCase(dislikeBlog.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.isSuccess = true;
+        state.isError = false;
+        state.dislikeBlog = action.payload;
+        state.message = "success";
+      })
+      .addCase(dislikeBlog.rejected, (state, action) => {
+        state.isLoading = false;
+        state.isError = action.error;
+        state.isSuccess = true;
+        state.user = null;
+      })
   },
-})
+});
 
 export default blogSlice.reducer;

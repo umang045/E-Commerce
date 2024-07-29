@@ -11,10 +11,12 @@ function Blog() {
 
   useEffect(() => {
     dispatch(getAllBlogs());
+
   }, [dispatch]);
 
   const blogState = useSelector((state) => state?.blog?.getAllBlogs);
-  console.log(blogState);
+
+  // console.log(blogState);
 
   return (
     <>

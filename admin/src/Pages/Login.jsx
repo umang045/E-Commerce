@@ -7,6 +7,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../feature/auth/authSlice";
 
 import { useNavigate } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 function Login() {
   const dispatch = useDispatch();
@@ -27,24 +29,36 @@ function Login() {
     validationSchema: schema,
     onSubmit: (values) => {
       dispatch(login(values));
+      setTimeout(() => {
+        let msg = JSON.parse(localStorage.getItem("user"));
+        if (msg) {
+          if (
+            msg.message == "Invalid Inputs!!" ||
+            msg.message == "You Are Not Authorize"
+          ) {
+            toast.error(msg.message);
+          } else {
+            toast.success("Login successfully!!");
+            navigate("/admin");
+          }
+        }
+      }, 500);
     },
   });
 
-  const authState = useSelector((state) => state);
+  const authState = useSelector((state) => state.auth?.user);
 
-  const { user, isError, isSuccess, isLoading, message } = authState.auth;
+  // console.log(authState);
 
   useEffect(() => {
-    // console.log(user.updateUser.refreshToken);
-    if (user != null || isSuccess) {
-      navigate("admin");
-    } else {
-      navigate("");
+    if (authState?.message == "Invalid Inputs!!") {
+      toast.error('"Invalid Inputs!!"');
     }
-  }, [user, isLoading, isError, isSuccess]);
+  }, []);
 
   return (
     <>
+      <ToastContainer />
       <div
         className="py-5"
         style={{ background: "#ffd333", minHeight: "100vh" }}
@@ -53,7 +67,7 @@ function Login() {
           <h3 className="text-center">Login</h3>
           <p className="text-center">Login to your account to continue</p>
           <div className="error text-center ">
-            {message.message == "Rejected" ? "You Are Not Admin!!" : ""}
+            {/* {authState.message == "Rejected" ? "You Are Not Admin!!" : ""} */}
           </div>
           <form action="" onSubmit={formik.handleSubmit}>
             <CustomInput

@@ -220,6 +220,9 @@ const MainLayout = () => {
                   <Link
                     className="dropdown-item py-1 mb-1"
                     style={{ height: "auto", lineHeight: "20px" }}
+                    onClick={() => {
+                      localStorage.clear();
+                    }}
                     to="/"
                   >
                     Signout
@@ -249,7 +252,6 @@ const MainLayout = () => {
             draggable
             pauseOnHover
             theme="light"
-          
           />
           <ToastContainer />
           <Outlet />

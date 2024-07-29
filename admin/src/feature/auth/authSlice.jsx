@@ -3,12 +3,12 @@ import authService from "./authService";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-const getUserfromLocalStorage = localStorage.getItem("user")
+const getUserfromLocalStorage = localStorage?.getItem("user")
   ? JSON.parse(localStorage.getItem("user"))
   : null;
 
 const initialState = {
-  user: getUserfromLocalStorage,
+  user: "",
   orders: [],
   isError: false,
   isLoading: false,
@@ -20,6 +20,7 @@ export const login = createAsyncThunk(
   "auth/login",
   async (userData, thunkAPI) => {
     try {
+      console.log(userData);
       return await authService.login(userData);
     } catch (error) {
       return thunkAPI.rejectWithValue(error);

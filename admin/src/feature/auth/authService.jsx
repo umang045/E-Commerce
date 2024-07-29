@@ -7,9 +7,11 @@ const updateOrderSt = async (id) => {
   return response.data;
 };
 
-const login = async (user) => {
-  const response = await axios.post(`${base_url}user/admin-login`, user);
+const login = async (userData) => {
+  const response = await axios.post(`${base_url}user/admin-login`, userData);
+  console.log(userData);
   if (response.data) {
+    console.log(response.data);
     localStorage.setItem("user", JSON.stringify(response.data));
   }
   return response.data;

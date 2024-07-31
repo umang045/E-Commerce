@@ -1,15 +1,34 @@
-import React from "react";
-import { useSelector, shallowEqual } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector, shallowEqual, useDispatch } from "react-redux";
+import { getProductAll } from "../Features/product/productSlice";
 
 //fetch product state
-const useGetAllProducts = () => {
-  //getall product whenever chage state
-  const getAllProdState = useSelector(
+
+const fetchProd = () => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getProductAll());
+  }, [getProductAll]);
+
+  const fetchProdState = useSelector(
     (state) => state?.product?.getProductAll,
     shallowEqual
   );
 
+  return fetchProdState;
+};
+
+const useGetAllProducts = () => {
+  //getall product whenever chage state
+  const getAllProdState = fetchProd();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getProductAll());
+  }, [getProductAll]);
+
+  // console.log(getAllProdState);
   //store data for search functionality
+
   let data = [];
   for (let index = 0; index < getAllProdState?.length; index++) {
     const element = getAllProdState[index];
@@ -28,4 +47,19 @@ const useCart = () => {
   return { cartState, sum };
 };
 
-export { useGetAllProducts, useCart };
+const useProductFunction = () => {
+  const getAllProdState = fetchProd();
+  let newBrands = [];
+  let categories = [];
+  let newtags = [];
+  for (let index = 0; index < getAllProdState?.length; index++) {
+    const element = getAllProdState[index];
+    newBrands.push(element?.brand);
+    categories.push(element?.category);
+    newtags.push(element?.tags);
+  }
+  // console.log(newBrands, categories, newtags);
+  return { newBrands, categories, newtags };
+};
+
+export { useGetAllProducts, useCart, useProductFunction };

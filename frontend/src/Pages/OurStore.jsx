@@ -4,6 +4,7 @@ import Meta from "../Components/Meta";
 import ProductCard from "../Components/ProductCard";
 import Container from "../Components/Container";
 import { useDispatch, useSelector } from "react-redux";
+import { useGetAllProducts } from "../Hooks/useGetAllProducts";
 
 import gr4 from "../images/gr4.svg";
 import gr3 from "../images/gr3.svg";
@@ -15,6 +16,8 @@ import {
   getProductAll,
 } from "../Features/product/productSlice";
 import { ToastContainer } from "react-toastify";
+import { useProductFunction } from "../Hooks/useGetAllProducts";
+import StoreCat from "../custComponent/StoreCat";
 
 function OurStore() {
   const [grid, setGrid] = useState(4);
@@ -34,14 +37,9 @@ function OurStore() {
   const [sort, setSort] = useState(null);
   const [page, setPage] = useState(null);
 
-  console.log(minPrice, maxPrice);
-  // console.log(page);
-  // console.log(brand, tag, category, minPrice, maxPrice, sort);
   const productState = useSelector((state) => state?.product?.product);
-  const getAllProdState = useSelector((state) => state?.product?.getProductAll);
-
-  // console.log(productState.length);
-  // console.log(nwtags);
+  const { getAllProdState } = useGetAllProducts();
+  console.log(getAllProdState);
 
   useEffect(() => {
     dispatch(getProductAll());
@@ -72,6 +70,8 @@ function OurStore() {
     );
   };
 
+  const prodFunction = useProductFunction();
+
   // alert(grid);
   return (
     <>
@@ -82,34 +82,7 @@ function OurStore() {
       <Container class1="sotre-wrapper home-wrapper-2 py-5">
         <div className="row">
           <div className="col-3">
-            <div className="filter-card mb-3">
-              <h3 className="filter-title">Shop By Categories</h3>
-              <ul className="ps-0 d-flex flex-wrap gap-15">
-                {categories &&
-                  [...new Set(categories)]?.map((item, index) => {
-                    return (
-                      <li
-                        key={index}
-                        style={{
-                          borderBottom:
-                            item === category ? "1px solid black" : "",
-                        }}
-                        onClick={() => {
-                          if (category == null) {
-                            setcategory(item);
-                          } else if (category == item) {
-                            setcategory(null);
-                          } else {
-                            setcategory(item);
-                          }
-                        }}
-                      >
-                        {item}
-                      </li>
-                    );
-                  })}
-              </ul>
-            </div>
+            <StoreCat />
 
             <div className="filter-card mb-3">
               <h3 className="filter-title">Filter By</h3>

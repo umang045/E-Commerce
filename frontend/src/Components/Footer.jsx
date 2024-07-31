@@ -6,7 +6,7 @@ import {
   MDBCol,
   MDBIcon,
 } from "mdb-react-ui-kit";
-import "../Css/Footer.css"; // Assuming some basic styling is defined (optional)
+
 
 const Footer = () => {
   return (

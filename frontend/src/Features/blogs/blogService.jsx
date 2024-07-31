@@ -17,14 +17,14 @@ const getABlog = async (id) => {
 
 const likeBlog = async (blogId) => {
   console.log(blogId);
-  const response = await axios.put(`${base_url}blog/likes`,config, blogId);
+  const response = await axios.put(`${base_url}blog/likes`, blogId, config);
   if (response.data) {
     return response.data;
   }
 };
 
 const dislikeBlog = async (blogId) => {
-  const response = await axios.put(`${base_url}blog/likes`, config, blogId);
+  const response = await axios.put(`${base_url}blog/likes`, blogId, config);
   if (response.data) {
     return response.data;
   }

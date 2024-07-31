@@ -2,12 +2,14 @@ import React from "react";
 import ReactStars from "react-rating-stars-component";
 import { Link, useLocation } from "react-router-dom";
 import Countdown from "react-countdown";
+import { useGetAllProducts } from "../Hooks/useGetAllProducts";
 
 function SpecialProduct(props) {
   const Completionist = () => <span>Sale is over</span>;
   const { id, src, title, brand, price, totalratting, quantity, sold } = props;
   // console.log(props);
 
+  const {getAllProdState} = useGetAllProducts()
   return (
     <>
       <Link to={`/product/${id}`} className="col-6 mb-3 text-black   ">

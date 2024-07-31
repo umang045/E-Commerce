@@ -201,32 +201,6 @@ function Home() {
         </div>
       </Container>
 
-      {/* <Container class1="popular-wrapper py-5 home-wrapper-2">
-        <div className="row">
-          <div className="col-12">
-            <h3 className="section-heading">Our Popular Brands</h3>
-          </div>
-          <div className="row">
-            {productState &&
-              productState.map((item, index) => {
-                if (item.tags === "popular") {
-                  return (
-                    <ProductCard
-                      key={index}
-                      title={item?.title}
-                      brand={item?.brand}
-                      totalratting = {item?.totalratting}
-                      price = {item?.price}
-                      sold = {item?.sold}
-                      quantity = {item?.quantity}
-                    />
-                  );
-                }
-              })}
-          </div>
-        </div>
-      </Container>    */}
-
       <Container class1="marque-wrapper py-5">
         <div className="row">
           <div className="col-12">
@@ -258,14 +232,6 @@ function Home() {
           </div>
         </div>
       </Container>
-
-      {/* <Container class1="blog-wrapper py-5 home-wrapper-2">
-        <div className="row">
-          <div className="col-12">
-            <h3 className="section-heading">Our Latest Blogs</h3>
-          </div>
-        </div>
-      </Container> */}
     </>
   );
 }
